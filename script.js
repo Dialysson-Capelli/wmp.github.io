@@ -27,3 +27,6 @@ function validarFormulario(event) {
         errorMessage.textContent = 'Usuário ou senha incorretos. Tente novamente.';
     }
 }
+
+// Adicionar o evento de submit no formulário
+document.getElementById('loginForm').addEventListener('submit', validarFormulario);

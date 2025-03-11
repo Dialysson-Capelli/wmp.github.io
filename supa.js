@@ -1,32 +1,40 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo Supabase</title>
-</head>
-<body>
 
-    <h1>Dados da Tabela de Produtos</h1>
+import { createClient } from '@supabase/supabase-js'
 
-    <table id="produtosTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Descrição</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Os dados serão carregados aqui -->
-        </tbody>
-    </table>
+const supabaseUrl = 'https://gplnubnalvkadoqjyeqk.supabase.co'
+const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
-    <!-- Carregar a biblioteca do Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <!-- Carregar o código JavaScript que irá fazer a consulta -->
-    <script type="module" src="script.js"></script>
+// Função para buscar dados da tabela 'produtos'
+async function carregarProdutos() {
+    try {
+        // Fazendo a consulta na tabela 'produtos'
+        const { data, error } = await supabase
+            .from('produtos') // Substitua 'produtos' pelo nome da sua tabela
+            .select('*'); // Seleciona todos os campos
 
-</body>
-</html>
+        if (error) {
+            throw error;
+        }
+
+        // Exibindo os dados no console
+        console.log(data);
+
+        // Inserindo os dados na tabela HTML
+        const produtosTableBody = document.getElementById('produtosTable').getElementsByTagName('tbody')[0];
+        produtosTableBody.innerHTML = '';  // Limpar a tabela antes de adicionar novos dados
+
+        data.forEach(produto => {
+            const row = produtosTableBody.insertRow();
+            row.insertCell(0).textContent = produto.id;
+            row.insertCell(1).textContent = produto.nome;
+            row.insertCell(2).textContent = `R$ ${produto.preco.toFixed(2)}`;
+            row.insertCell(3).textContent = produto.descricao;
+        });
+    } catch (error) {
+        console.error('Erro ao buscar os produtos:', error);
+    }
+}
+
+// Carregar produtos assim que a página for carregada
+window.onload = carregarProdutos;

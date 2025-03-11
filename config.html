@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabela de Produtos</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Exemplo Supabase</title>
 </head>
 <body>
 
-    <h1>Produtos Disponíveis</h1>
+    <h1>Dados da Tabela de Produtos</h1>
 
     <table id="produtosTable">
         <thead>
@@ -20,14 +19,14 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Os produtos serão carregados aqui via JavaScript -->
+            <!-- Os dados serão carregados aqui -->
         </tbody>
     </table>
 
-    <!-- Carregar a biblioteca do Supabase primeiro -->
+    <!-- Carregar a biblioteca do Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <!-- Depois, carregar seu script customizado -->
-    <script src="supa.js"></script>
+    <!-- Carregar o código JavaScript que irá fazer a consulta -->
+    <script type="module" src="supa.js"></script>
 
 </body>
 </html>

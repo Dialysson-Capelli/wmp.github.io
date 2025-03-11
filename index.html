@@ -3,36 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supabase no GitHub Pages</title>
+    <title>Exemplo de Tabela com Supabase</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-    <h1>Conectando ao Supabase</h1>
+    <h1>Lista de Pessoas</h1>
+    <table id="PRODUTOS">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os dados serão inseridos aqui dinamicamente -->
+        </tbody>
+    </table>
 
     <script>
-    
-        const SUPABASE_URL = 'https://gplnubnalvkadoqjyeqk.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwbG51Ym5hbHZrYWRvcWp5ZXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzE3NjYsImV4cCI6MjA1NzIwNzc2Nn0.EYKppK_ixijjBiTwRTU4QbZzNTgjvKR6FvsPo0s8Gzc';
+        // Substitua pelos seus dados do Supabase
+        const SUPABASE_URL = 'https://gplnubnalvkadoqjyeqk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwbG51Ym5hbHZrYWRvcWp5ZXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzE3NjYsImV4cCI6MjA1NzIwNzc2Nn0.EYKppK_ixijjBiTwRTU4QbZzNTgjvKR6FvsPo0s8Gzc'; 
 
         // Inicializando o Supabase
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Testando a conexão
+        // Função para buscar e exibir dados
         async function fetchData() {
+            // Buscando os dados da tabela 'pessoas'
             const { data, error } = await supabase
-                .from('PRODUTOS') 
-                .select('*'); 
+                .from('PRODUTOS')  // Nome da tabela no Supabase
+                .select('*');     // Selecionando todas as colunas
 
             if (error) {
                 console.error('Erro ao buscar dados:', error);
-            } else {
-                console.log('Dados recebidos:', data);
-                // exibir os dados na página, se necessário
+                return;
             }
+
+            // Exibindo os dados na tabela HTML
+            const tabela = document.getElementById('PRODUTOS').getElementsByTagName('tbody')[0];
+
+            data.forEach(PRODUTOS => {
+                const row = tabela.insertRow();
+                row.innerHTML = `
+                    <td>${PRODUTOS.id}</td>
+                    <td>${PRODUTOS.nome}</td>
+                ;
+            });
+
         }
 
-        // Chama a função para buscar os dados
-        fetchData();
-    </script>
+         fetchData();
+	});
+
 </body>
 </html>

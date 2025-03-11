@@ -1,75 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo de Tabela com Supabase</title>    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.19.0/dist/umd/supabase.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
 
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" name="username" required placeholder="Digite seu usuário">
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+                </div>
+                <button type="submit" class="btn-login">Entrar</button>
+            </form>
+            <div class="forgot-password">
+                <a href="#">Esqueceu a senha?</a>
+            </div>
+            <div id="error-message" class="error-message"></div>
+        </div>
 
-        table, th, td {
-            border: 1px solid black;
-        }
+        <!-- Vinculando o arquivo JavaScript -->
+        <script src="script.js"></script>       
 
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
-</head>
-<body>
-    <h1>Lista de Pessoas</h1>
-    <table id="PRODUTOS">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Os dados serão inseridos aqui dinamicamente -->
-        </tbody>
-    </table>
-    <script src="js/script.js"></script>
-    <script>
-        // Substitua pelos seus dados do Supabase
-        const SUPABASE_URL = 'https://gplnubnalvkadoqjyeqk.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwbG51Ym5hbHZrYWRvcWp5ZXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzE3NjYsImV4cCI6MjA1NzIwNzc2Nn0.EYKppK_ixijjBiTwRTU4QbZzNTgjvKR6FvsPo0s8Gzc'; 
-
-        // Inicializando o Supabase
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Função para buscar e exibir dados
-        async function fetchData() {
-            // Buscando os dados da tabela 'pessoas'
-            const { data, error } = await supabase
-                .from('PRODUTOS')  // Nome da tabela no Supabase
-                .select('*');     // Selecionando todas as colunas
-
-            if (error) {
-                console.error('Erro ao buscar dados:', error);
-                return;
-            }
-
-            // Exibindo os dados na tabela HTML
-            const tabela = document.getElementById('PRODUTOS').getElementsByTagName('tbody')[0];
-
-            data.forEach(PRODUTOS => {
-                const row = tabela.insertRow();
-                row.innerHTML = `
-                    <td>${PRODUTOS.id}</td>
-                    <td>${PRODUTOS.nome}</td>
-                ;
-            });
-
-        }
-
-         fetchData();
-	});
-</body>
+    </body>
 </html>

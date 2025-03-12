@@ -16,9 +16,8 @@
         mensagem: mensagem
       };
 
-      var url = 'https://script.google.com/macros/s/AKfycbynRH_FUQhcDJzQ387bwDXLQEIdrCnorq9eymFPbhQeNf2R-L5Q-_65WnKGmxjasZdaeg/exec'; // Cole aqui a URL do seu Google Apps Script
+      var url = 'https://script.google.com/macros/s/AKfycbylmmyFryiShAVohBpWKkmwP3n7Vfb1JY_YoSTUA5yXxLszXyQJpNybdK76GapnZ5WO0Q/exec'; // Cole aqui a URL do seu Google Apps Script
 
-      // Usando fetch para enviar os dados
       fetch(url, {
         method: 'POST',
         headers: {
@@ -28,7 +27,11 @@
       })
       .then(response => response.json())
       .then(data => {
-        alert('Dados enviados com sucesso!');
+        if (data.result === "success") {
+          alert('Dados enviados com sucesso!');
+        } else {
+          alert('Erro ao enviar os dados: ' + data.message);
+        }
       })
       .catch((error) => {
         console.error('Erro:', error);

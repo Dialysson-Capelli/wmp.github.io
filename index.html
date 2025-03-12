@@ -1,28 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Login</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário</title>
+  <script>
+    function enviarDados() {
+      var nome = document.getElementById('nome').value;
+      var email = document.getElementById('email').value;
+      var mensagem = document.getElementById('mensagem').value;
+
+      var dados = {
+        nome: nome,
+        email: email,
+        mensagem: mensagem
+      };
+
+      var url = 'COLE_AQUI_A_URL_DO_SEU_APP_SCRIPT'; // Substitua com a URL do seu Google Apps Script
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Dados enviados com sucesso!');
+      })
+      .catch((error) => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao enviar os dados.');
+      });
+    }
+  </script>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Login</h2>
-            <form action="#">
-                <div class="textbox">
-                    <input type="text" placeholder="Usuário" name="username" required>
-                </div>
-                <div class="textbox">
-                    <input type="password" placeholder="Senha" name="password" required>
-                </div>
-                <input type="submit" value="Entrar">
-            </form>
-        </div>
-    </div>
-    
-        <!-- Vinculando o arquivo JavaScript -->
-        <script src="script.js"></script>
+  <h1>Formulário de Contato</h1>
+  <form onsubmit="event.preventDefault(); enviarDados();">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" required><br><br>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" required><br><br>
+
+    <label for="mensagem">Mensagem:</label><br>
+    <textarea id="mensagem" rows="4" required></textarea><br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
 </body>
 </html>

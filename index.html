@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário</title>
+  <title>Formulário de Contato</title>
   <script>
     function enviarDados() {
       var nome = document.getElementById('nome').value;
@@ -16,8 +16,9 @@
         mensagem: mensagem
       };
 
-      var url = 'https://script.google.com/macros/s/AKfycbzWnh6k8sIpt9gQFFkh5lJ9gOCsPPNfZTgdutqKLAhD_FGvX-nf9GndBaaRtE4q8eFz_Q/exec'; // Substitua com a URL do seu Google Apps Script
+      var url = 'https://script.google.com/macros/s/AKfycbxV9D__mZZYTeXsitbKac_MJ1QmypJsk3D9IXHf5TLoPG1X8KJSTa-sb_PS0fh1_5Y-rA/exec'; // Cole a URL do seu Apps Script aqui
 
+      // Usando fetch para enviar os dados
       fetch(url, {
         method: 'POST',
         headers: {

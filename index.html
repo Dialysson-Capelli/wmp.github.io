@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste</title>
+</head>
+<body>
+
+    <h1> </h1>
+
+    <!-- Formulário -->
+    <form id="meuFormulario">
+        <!-- Campo Nome -->
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="entry.1369876561" required><br><br>
+
+        <!-- Botão de Envio -->
+        <button type="submit">Enviar</button>
+        <!-- Botão de Visualizar -->
+        <button type="visualizar" id="visualizar">Visualizar</button>
+        <!-- Botão de sair -->
+        <button type="sair" id="sair">Sair</button>
+    </form>
+
+    <script>
+        // Seleciona o formulário
+        var formulario = document.getElementById('meuFormulario');
+
+        // Define o evento de envio do formulário
+        formulario.onsubmit = function(event) {
+            event.preventDefault(); // Impede o comportamento padrão (redirecionamento)
+
+            // Cria um objeto FormData para pegar os dados do formulário
+            var formData = new FormData(formulario);
+
+            // URL do formulário do Google (substitua pelo link do seu formulário)
+            var googleFormsUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdOPNmy_x9J5jfYHkKFMLYkHGMU1HXrgEPXDstVrGerMh86Tw/formResponse";
+
+            // Envia os dados via AJAX (requisição POST)
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", googleFormsUrl, true);
+            xhr.send(formData);
+
+        };
+	// Função para redirecionar a página ao clicar no botão
+        document.getElementById('visualizar').addEventListener('click', function() {
+            window.location.href = 'exibir.html';
+        });
+	// Função para voltar ao login
+        document.getElementById('sair').addEventListener('click', function(sair) {
+            window.location.href = 'login.html';
+        });
+
+    </script>
+
+</body>
+</html>

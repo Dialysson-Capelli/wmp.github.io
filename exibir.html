@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exibir Dados da Planilha do Google</title>
+    <link rel="stylesheet" href="exibir.css">
+</head>
+<body>
+
+    <h1>Dados da Planilha</h1>
+
+    <!-- Tabela para exibir os dados -->
+    <table id="tabelaDados">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Idade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os dados serão inseridos aqui via JavaScript -->
+        </tbody>
+    </table>
+        <!-- Botão de voltar -->
+        <button type="voltar" id="voltar">Voltar</button>
+
+
+    <script>
+        // Definir o ID da planilha e o nome da aba
+        const sheetID = '1kh3YGCso-1eLb35jcRbgWA6Wb4A_Yf-jcPPZJsuJFsw'; // Substitua pelo ID da sua planilha
+        const sheetName = 'Respostas ao formulário 1'; // Substitua pelo nome da aba que contém os dados
+        const apiKey = 'AIzaSyBF3-tyzI2-n0Zl0AwIXlC1FDfuyiQc4Ws'; // Substitua pela sua chave de API
+
+        // URL para a API do Google Sheets
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${sheetName}?key=${apiKey}`;
+
+        // Função para carregar os dados da planilha e exibir na tabela
+        function carregarDados() {
+            // Fazendo uma requisição GET para pegar os dados
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const tabela = document.getElementById('tabelaDados').getElementsByTagName('tbody')[0];
+
+                    // Pega os valores da planilha (as linhas)
+                    const rows = data.values;
+
+                    // Preenche a tabela com os dados
+                    rows.forEach(function(row, index) {
+                        if (index > 0) { // Ignora a primeira linha (cabeçalho)
+                            const tr = document.createElement('tr');
+                            row.forEach(function(cell) {
+                                const td = document.createElement('td');
+                                td.textContent = cell;
+                                tr.appendChild(td);
+                            });
+                            tabela.appendChild(tr);
+                        }
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar os dados:', error));
+        }
+
+        // Carregar os dados quando a página for carregada
+        window.onload = carregarDados;
+
+	// Função para voltar ao login
+        document.getElementById('voltar').addEventListener('click', function(sair) {
+            window.location.href = 'index.html';
+        });
+
+    </script>
+
+</body>
+</html>

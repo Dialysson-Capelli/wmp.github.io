@@ -1,58 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Contato</title>
-  <script>
-    function enviarDados() {
-      var nome = document.getElementById('nome').value;
-      var email = document.getElementById('email').value;
-      var mensagem = document.getElementById('mensagem').value;
-
-      var dados = {
-        nome: nome,
-        email: email,
-        mensagem: mensagem
-      };
-
-      var url = 'https://script.google.com/macros/s/AKfycbylmmyFryiShAVohBpWKkmwP3n7Vfb1JY_YoSTUA5yXxLszXyQJpNybdK76GapnZ5WO0Q/exec'; // Cole aqui a URL do seu Google Apps Script
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.result === "success") {
-          alert('Dados enviados com sucesso!');
-        } else {
-          alert('Erro ao enviar os dados: ' + data.message);
-        }
-      })
-      .catch((error) => {
-        console.error('Erro:', error);
-        alert('Ocorreu um erro ao enviar os dados.');
-      });
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste</title>
 </head>
 <body>
-  <h1>Formulário de Contatos</h1>
-  <form onsubmit="event.preventDefault(); enviarDados();">
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" required><br><br>
 
-    <label for="email">E-mail:</label>
-    <input type="email" id="email" required><br><br>
+    <h1> teste </h1>
 
-    <label for="mensagem">Mensagem:</label><br>
-    <textarea id="mensagem" rows="4" required></textarea><br><br>
+    <!-- Formulário -->
+    <form id="meuFormulario">
+        <!-- Campo Nome -->
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="entry.1369876561" required><br><br>
 
-    <button type="submit">Enviar</button>
-  </form>
+        <!-- Botão de Envio -->
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        // Seleciona o formulário
+        var formulario = document.getElementById('meuFormulario');
+
+        // Define o evento de envio do formulário
+        formulario.onsubmit = function(event) {
+            event.preventDefault(); // Impede o comportamento padrão (redirecionamento)
+
+            // Cria um objeto FormData para pegar os dados do formulário
+            var formData = new FormData(formulario);
+
+            // URL do formulário do Google (substitua pelo link do seu formulário)
+            var googleFormsUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdOPNmy_x9J5jfYHkKFMLYkHGMU1HXrgEPXDstVrGerMh86Tw/formResponse";
+
+            // Envia os dados via AJAX (requisição POST)
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", googleFormsUrl, true);
+            xhr.send(formData);
+
+        };
+    </script>
+
 </body>
 </html>

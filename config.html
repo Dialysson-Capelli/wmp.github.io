@@ -3,70 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo Supabase</title>
+    <title>Exibir Dados da Planilha do Google</title>
+    <style>
+        /* Estilo para a tabela */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td {
+            background-color: #fafafa;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Dados da Tabela de Produtos</h1>
+    <h1>Dados da Planilha</h1>
 
-    <table id="produtosTable">
+    <!-- Tabela para exibir os dados -->
+    <table id="tabelaDados">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
-                <th>Preço</th>
-                <th>Descrição</th>
+                <th>Email</th>
+                <th>Idade</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Os dados serão carregados aqui -->
+            <!-- Os dados serão inseridos aqui via JavaScript -->
         </tbody>
     </table>
 
-    <!-- Carregar o Supabase SDK via CDN adequado -->
-    <script type="module">
-        // Importação correta usando o CDN para módulos
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    <script>
+        // Definir o ID da planilha e o nome da aba
+        const sheetID = '1kh3YGCso-1eLb35jcRbgWA6Wb4A_Yf-jcPPZJsuJFsw'; // Substitua pelo ID da sua planilha
+        const sheetName = 'Respostas ao formulário 1'; // Substitua pelo nome da aba que contém os dados
+        const apiKey = 'AIzaSyBF3-tyzI2-n0Zl0AwIXlC1FDfuyiQc4Ws'; // Substitua pela sua chave de API
 
-        // Substitua por suas credenciais do Supabase
-        const SUPABASE_URL = 'https://gplnubnalvkadoqjyeqk.supabase.co';  // Sua URL do Supabase
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwbG51Ym5hbHZrYWRvcWp5ZXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2MzE3NjYsImV4cCI6MjA1NzIwNzc2Nn0.EYKppK_ixijjBiTwRTU4QbZzNTgjvKR6FvsPo0s8Gzc';  // Sua chave pública
+        // URL para a API do Google Sheets
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${sheetName}?key=${apiKey}`;
 
-        // Criação do cliente Supabase
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Função para carregar os dados da planilha e exibir na tabela
+        function carregarDados() {
+            // Fazendo uma requisição GET para pegar os dados
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const tabela = document.getElementById('tabelaDados').getElementsByTagName('tbody')[0];
 
-        // Função para buscar dados da tabela 'produtos'
-        async function carregarProdutos() {
-            try {
-                const { data, error } = await supabase
-                    .from('produtos') // Substitua 'produtos' pelo nome da sua tabela
-                    .select('*'); // Seleciona todos os campos
+                    // Pega os valores da planilha (as linhas)
+                    const rows = data.values;
 
-                if (error) {
-                    throw error;
-                }
-
-                // Exibindo os dados no console
-                console.log(data);
-
-                // Inserindo os dados na tabela HTML
-                const produtosTableBody = document.getElementById('produtosTable').getElementsByTagName('tbody')[0];
-                produtosTableBody.innerHTML = '';  // Limpar a tabela antes de adicionar novos dados
-
-                data.forEach(produto => {
-                    const row = produtosTableBody.insertRow();
-                    row.insertCell(0).textContent = produto.id;
-                    row.insertCell(1).textContent = produto.nome;
-                    row.insertCell(2).textContent = `R$ ${produto.preco.toFixed(2)}`;
-                    row.insertCell(3).textContent = produto.descricao;
-                });
-            } catch (error) {
-                console.error('Erro ao buscar os produtos:', error);
-            }
+                    // Preenche a tabela com os dados
+                    rows.forEach(function(row, index) {
+                        if (index > 0) { // Ignora a primeira linha (cabeçalho)
+                            const tr = document.createElement('tr');
+                            row.forEach(function(cell) {
+                                const td = document.createElement('td');
+                                td.textContent = cell;
+                                tr.appendChild(td);
+                            });
+                            tabela.appendChild(tr);
+                        }
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar os dados:', error));
         }
 
-        // Carregar produtos assim que a página for carregada
-        window.onload = carregarProdutos;
+        // Carregar os dados quando a página for carregada
+        window.onload = carregarDados;
     </script>
 
 </body>
